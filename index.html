@@ -3,9 +3,490 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation</title>
+    <title>Synth Menu Guide</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --bg-soft: #fbf8f1;
+            --panel: rgba(255, 252, 245, 0.82);
+            --panel-strong: rgba(255, 250, 240, 0.94);
+            --ink: #1d221d;
+            --muted: #5b645a;
+            --line: rgba(31, 41, 31, 0.14);
+            --accent: #2f5d50;
+            --accent-soft: #d9e7df;
+            --accent-warm: #c97a42;
+            --shadow: 0 24px 60px rgba(38, 42, 33, 0.12);
+            --radius-lg: 28px;
+            --radius-md: 20px;
+            --radius-sm: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(201, 122, 66, 0.18), transparent 28rem),
+                radial-gradient(circle at top right, rgba(47, 93, 80, 0.16), transparent 26rem),
+                linear-gradient(180deg, #efe8dc 0%, var(--bg) 45%, #f7f3eb 100%);
+            font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+            line-height: 1.55;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(47, 93, 80, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(47, 93, 80, 0.035) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.36), transparent 80%);
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .page {
+            width: min(1120px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 2rem 0 4rem;
+        }
+
+        .hero,
+        .panel {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            background: var(--panel);
+            backdrop-filter: blur(18px);
+            box-shadow: var(--shadow);
+        }
+
+        .hero {
+            padding: 2.6rem clamp(1.4rem, 2vw, 2.25rem);
+            margin-bottom: 1.2rem;
+            background:
+                linear-gradient(135deg, rgba(255, 252, 246, 0.94), rgba(244, 239, 230, 0.72)),
+                var(--panel);
+        }
+
+        .hero::after,
+        .panel::after {
+            content: "";
+            position: absolute;
+            inset: auto -8rem -8rem auto;
+            width: 16rem;
+            height: 16rem;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(47, 93, 80, 0.09), transparent 68%);
+            pointer-events: none;
+        }
+
+        .eyebrow {
+            margin: 0 0 0.75rem;
+            color: var(--accent);
+            font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+            font-size: 0.84rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            line-height: 1.08;
+            font-weight: 700;
+        }
+
+        h1 {
+            max-width: 10ch;
+            font-size: clamp(2.5rem, 6vw, 5.2rem);
+            letter-spacing: -0.04em;
+        }
+
+        .lede {
+            max-width: 56rem;
+            margin: 1rem 0 1.5rem;
+            font-size: clamp(1rem, 1.8vw, 1.18rem);
+            color: var(--muted);
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .chip,
+        .jump-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.2rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(47, 93, 80, 0.16);
+            background: rgba(255, 253, 248, 0.82);
+            font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+            font-size: 0.84rem;
+            text-decoration: none;
+        }
+
+        .chip strong {
+            color: var(--accent);
+        }
+
+        .jump-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .jump-links a {
+            transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+        }
+
+        .jump-links a:hover,
+        .jump-links a:focus-visible {
+            border-color: rgba(47, 93, 80, 0.32);
+            background: rgba(217, 231, 223, 0.7);
+            transform: translateY(-1px);
+        }
+
+        .panel {
+            padding: 1.5rem clamp(1.2rem, 2vw, 1.8rem);
+            margin-top: 1.1rem;
+        }
+
+        .section-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: end;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+        }
+
+        .section-header p {
+            margin: 0;
+            max-width: 42rem;
+            color: var(--muted);
+        }
+
+        .overview-grid,
+        .menu-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .overview-grid {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .menu-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .note,
+        .menu-card {
+            position: relative;
+            padding: 1.15rem 1.1rem 1.2rem;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(31, 41, 31, 0.1);
+            background: var(--panel-strong);
+        }
+
+        .note h3,
+        .menu-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.55rem;
+        }
+
+        .note p,
+        .menu-card p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .menu-card p + .control-list,
+        .menu-card p + .action-list {
+            margin-top: 0.9rem;
+        }
+
+        .control-list + .action-list {
+            margin-top: 0.35rem;
+        }
+
+        .menu-card .tag {
+            display: inline-flex;
+            margin-bottom: 0.75rem;
+            padding: 0.28rem 0.6rem;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+            font-size: 0.76rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .control-list,
+        .action-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .control-list li,
+        .action-list li {
+            padding: 0.55rem 0;
+            border-top: 1px solid rgba(31, 41, 31, 0.08);
+        }
+
+        .control-list strong,
+        .action-list strong {
+            color: var(--ink);
+            font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+            font-size: 0.86rem;
+        }
+
+        .menu-card.accent {
+            background:
+                linear-gradient(180deg, rgba(217, 231, 223, 0.52), rgba(255, 252, 246, 0.96));
+        }
+
+        .menu-card.warm {
+            background:
+                linear-gradient(180deg, rgba(249, 230, 214, 0.62), rgba(255, 252, 246, 0.96));
+        }
+
+        .footer-note {
+            margin-top: 1.2rem;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        @media (max-width: 720px) {
+            .page {
+                width: min(100% - 1rem, 1120px);
+                padding-top: 0.5rem;
+            }
+
+            .hero,
+            .panel {
+                border-radius: 22px;
+            }
+
+            h1 {
+                max-width: none;
+            }
+        }
+    </style>
 </head>
 <body>
-    hi
+    <div class="page">
+        <header class="hero">
+            <p class="eyebrow">Synth Device Documentation</p>
+            <h1>Using the device menus</h1>
+            <p class="lede">
+                This page documents the current menu behavior of the device:
+                what each screen does, what <strong>Knob 1</strong> through <strong>Knob 4</strong> control,
+                and how the <strong>Edit button</strong> behaves.
+            </p>
+            <div class="hero-meta">
+                <span class="chip"><strong>Main menu:</strong>&nbsp;turn any knob to move</span>
+                <span class="chip"><strong>Open:</strong>&nbsp;press the Edit button once</span>
+                <span class="chip"><strong>Back:</strong>&nbsp;double-click the Edit button</span>
+            </div>
+            <nav class="jump-links" aria-label="Page sections">
+                <a href="#basics">Basics</a>
+                <a href="#menus">Menu reference</a>
+                <a href="#write">Write</a>
+                <a href="#presets">Presets</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="panel" id="basics">
+                <div class="section-header">
+                    <div>
+                        <h2>Basics</h2>
+                        <p>Start here if you only need the overall flow before diving into the individual menus.</p>
+                    </div>
+                </div>
+                <div class="overview-grid">
+                    <article class="note">
+                        <h3>Main navigation</h3>
+                        <p>From the main menu, turn any knob to move the highlight. Press the Edit button once to open the highlighted menu.</p>
+                    </article>
+                    <article class="note">
+                        <h3>Editing sound menus</h3>
+                        <p>Tone, Wave, ADSR, Reverb, Noise, and Harmonist only change values while editing is active. Press the Edit button once to start editing, then press it again to stop.</p>
+                    </article>
+                    <article class="note">
+                        <h3>Special cases</h3>
+                        <p>Write and Presets use the Edit button differently than the other menus. Their full behavior is listed in their own sections below.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="panel" id="menus">
+                <div class="section-header">
+                    <div>
+                        <h2>Menu reference</h2>
+                        <p>The main menu contains eight destinations: Tone, Wave, ADSR, Reverb, Noise, Harmonist, Write, and Presets.</p>
+                    </div>
+                </div>
+                <div class="menu-grid">
+                    <article class="menu-card accent">
+                        <span class="tag">Main Menu</span>
+                        <h3>Main</h3>
+                        <p>The launcher for every other screen.</p>
+                        <ul class="control-list">
+                            <li><strong>Knob 1-4:</strong> Turning any knob moves the selection up or down the menu list.</li>
+                            <li><strong>Edit button:</strong> Opens the highlighted menu.</li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card">
+                        <span class="tag">Tone</span>
+                        <h3>Tone</h3>
+                        <p>Core output controls plus the live waveform history display.</p>
+                        <ul class="control-list">
+                            <li><strong>Knob 1:</strong> Output level.</li>
+                            <li><strong>Knob 2:</strong> Octave.</li>
+                            <li><strong>Knob 3:</strong> Waveform history length shown on the display.</li>
+                            <li><strong>Knob 4:</strong> Clip amount for added saturation.</li>
+                            <li><strong>Edit button:</strong> Press once to start or stop editing.</li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card">
+                        <span class="tag">Wave</span>
+                        <h3>Wave</h3>
+                        <p>Edit a custom waveform or blend through the built-in waveform shapes.</p>
+                        <ul class="control-list">
+                            <li><strong>Knob 1:</strong> Selects which waveform point you are editing.</li>
+                            <li><strong>Knob 2:</strong> Moves the selected point up or down.</li>
+                            <li><strong>Knob 3:</strong> Changes the curvature or smoothing of the custom wave.</li>
+                            <li><strong>Knob 4:</strong> Morphs through the built-in waveforms. Using it returns the screen to the built-in morph wave instead of the custom one.</li>
+                            <li><strong>Edit button:</strong> Press once to start or stop editing.</li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card">
+                        <span class="tag">ADSR</span>
+                        <h3>ADSR</h3>
+                        <p>Envelope timing and sustain shape.</p>
+                        <ul class="control-list">
+                            <li><strong>Knob 1:</strong> Attack.</li>
+                            <li><strong>Knob 2:</strong> Decay.</li>
+                            <li><strong>Knob 3:</strong> Sustain.</li>
+                            <li><strong>Knob 4:</strong> Release.</li>
+                            <li><strong>Edit button:</strong> Press once to start or stop editing.</li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card">
+                        <span class="tag">Reverb</span>
+                        <h3>Reverb</h3>
+                        <p>Room and decay controls for the reverb engine.</p>
+                        <ul class="control-list">
+                            <li><strong>Knob 1:</strong> Dry and wet balance.</li>
+                            <li><strong>Knob 2:</strong> Room size.</li>
+                            <li><strong>Knob 3:</strong> Reverb decay.</li>
+                            <li><strong>Knob 4:</strong> Unused in this menu.</li>
+                            <li><strong>Edit button:</strong> Press once to start or stop editing.</li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card">
+                        <span class="tag">Noise</span>
+                        <h3>Noise</h3>
+                        <p>Add and shape a noise layer alongside the main oscillator.</p>
+                        <ul class="control-list">
+                            <li><strong>Knob 1:</strong> Noise level.</li>
+                            <li><strong>Knob 2:</strong> Noise filter cutoff.</li>
+                            <li><strong>Knob 3:</strong> How strongly the envelope shapes the noise.</li>
+                            <li><strong>Knob 4:</strong> Noise type: none, white, black, brown, pink, or red.</li>
+                            <li><strong>Edit button:</strong> Press once to start or stop editing.</li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card">
+                        <span class="tag">Harmonist</span>
+                        <h3>Harmonist</h3>
+                        <p>Create up to three harmony voices and tune how each added voice behaves.</p>
+                        <ul class="control-list">
+                            <li><strong>Knob 1:</strong> Level of the current harmony voice.</li>
+                            <li><strong>Knob 2:</strong> Number of harmony voices, from 0 to 3.</li>
+                            <li><strong>Knob 3:</strong> Interval, in semitone steps, for the current harmony voice.</li>
+                            <li><strong>Knob 4:</strong> Detune for the current harmony voice.</li>
+                            <li><strong>Edit button:</strong> Press once to start or stop editing.</li>
+                        </ul>
+                        <ul class="action-list">
+                            <li><strong>Note:</strong> When you add a new harmony voice, that newest voice becomes the one Knob 1, Knob 3, and Knob 4 are editing.</li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card warm" id="write">
+                        <span class="tag">Write</span>
+                        <h3>Write</h3>
+                        <p>Record a note sequence, then play it back using the sound settings that were active when recording started.</p>
+                        <ul class="control-list">
+                            <li><strong>Knob 1:</strong> Write playback volume.</li>
+                            <li><strong>Knob 2:</strong> Playback filter tilt: left is more low-pass, center is flat, right is more high-pass.</li>
+                            <li><strong>Knob 3:</strong> Note hold length.</li>
+                            <li><strong>Knob 4:</strong> Playback tempo.</li>
+                        </ul>
+                        <ul class="action-list">
+                            <li><strong>Edit button, single press from idle:</strong> Starts a fresh recording, clears the old Write sequence, and captures the current sound settings for playback.</li>
+                            <li><strong>While recording:</strong> Play notes to add them to the sequence.</li>
+                            <li><strong>Edit button, single press while recording:</strong> Stops recording.</li>
+                            <li><strong>Edit button, hold while idle:</strong> Auditions the sequence while the button is held down.</li>
+                            <li><strong>Edit button, triple-click:</strong> Starts looping playback.</li>
+                            <li><strong>Edit button, single press while looping:</strong> Stops the loop.</li>
+                            <li><strong>Edit button, double-click:</strong> Returns to the main menu.</li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card warm" id="presets">
+                        <span class="tag">Presets</span>
+                        <h3>Presets</h3>
+                        <p>Save, reorder, delete, and load complete sound setups.</p>
+                        <ul class="control-list">
+                            <li><strong>Knob 2-4 in the list:</strong> Move through the preset list.</li>
+                            <li><strong>Knob 1 in the list:</strong> Reorders the currently selected preset.</li>
+                            <li><strong>Any knob in the Delete / Enter screen:</strong> Switches between the two options.</li>
+                        </ul>
+                        <ul class="action-list">
+                            <li><strong>Edit button on a preset:</strong> Opens the Delete / Enter screen.</li>
+                            <li><strong>Edit button on Add:</strong> Opens preset naming for the current settings.</li>
+                            <li><strong>During naming:</strong> Use the note keys to enter letters A through W. The X key acts as backspace.</li>
+                            <li><strong>Edit button during naming:</strong> Saves the new preset.</li>
+                            <li><strong>Choosing Enter:</strong> Loads the preset and returns to the main menu.</li>
+                            <li><strong>Edit button, double-click:</strong> Returns to the main menu without loading anything.</li>
+                        </ul>
+                    </article>
+                </div>
+                <p class="footer-note">In every submenu, double-clicking the Edit button returns to the main menu. The only difference is what a single press does on that screen.</p>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
